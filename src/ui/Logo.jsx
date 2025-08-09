@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
+import light from "../data/img/logo-light.png";
+import dark from "../data/img/logo-dark.png";
 
 const StyledLogo = styled.div`
   text-align: center;
@@ -12,7 +15,7 @@ const Img = styled.img`
 function Logo() {
   return (
     <StyledLogo>
-      <Img src="/logo-light.png" alt="Logo" />
+      <Img src={light} alt="Logo" />
     </StyledLogo>
   );
 }
