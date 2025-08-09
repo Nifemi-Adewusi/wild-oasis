@@ -1,4 +1,8 @@
+/* eslint-disable no-unused-vars */
+import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { getCabins } from "../services/apiCabins";
+import Spinner from "./Spinner";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -58,3 +62,5 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
+
+// export default CabinTable;
