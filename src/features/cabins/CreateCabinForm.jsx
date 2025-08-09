@@ -7,6 +7,9 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createCabin } from "../../services/apiCabins";
+import toast from "react-hot-toast";
 
 const FormRow = styled.div`
   display: grid;
@@ -45,9 +48,21 @@ const Error = styled.span`
 `;
 
 function CreateCabinForm() {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["Cabin"],
+      });
+      toast.success("Cabin Added Successfully");
+    },
+  });
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
+    
+    mutate(data);
     // Here you would typically send the data to your API
   };
   // const cabinName = watch("name");
