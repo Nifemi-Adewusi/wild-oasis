@@ -1,4 +1,14 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import { identity } from "lodash-es";
 import styled from "styled-components";
+import { formatCurrency } from "../../utils/helpers";
+import { deleteCabin } from "../../services/apiCabins";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +48,42 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+function CabinRow({ cabin }) {
+  const {
+    id: cabinId,
+    name,
+    maxCapacity,
+    regularPrice,
+    discount,
+    description,
+    image,
+  } = cabin;
+  // QueryClient is used to manage the cache and refetch data after mutations
+  // It allows us to invalidate queries and refetch data when a mutation occurs
+  const queryClient = useQueryClient();
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: deleteCabin,
+    onSuccess: () => {
+      // Invalidate the query to refetch the cabins list
+      // This will trigger a refetch of the cabins data
+      queryClient.invalidateQueries({
+        queryKey: ["Cabin"],
+      });
+    },
+  });
+  return (
+    <TableRow role="row">
+      <img src={image} alt={name} />
+      <Cabin>{name}</Cabin>
+      <div>Fits up to {maxCapacity} guests</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      <Discount>{formatCurrency(discount)}</Discount>
+      <button disabled={isDeleting} onClick={() => mutate(cabinId)}>
+        Delete
+      </button>
+    </TableRow>
+  );
+}
+
+export default CabinRow;
