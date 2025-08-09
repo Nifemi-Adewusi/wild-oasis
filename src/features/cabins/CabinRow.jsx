@@ -9,6 +9,7 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const TableRow = styled.div`
   display: grid;
@@ -70,7 +71,9 @@ function CabinRow({ cabin }) {
       queryClient.invalidateQueries({
         queryKey: ["Cabin"],
       });
+      toast.success("Cabin deleted successfully");
     },
+    onError: (error) => toast.error(error.message),
   });
   return (
     <TableRow role="row">
