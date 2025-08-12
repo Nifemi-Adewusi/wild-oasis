@@ -21,9 +21,12 @@ function Cabins() {
       <Row>
         <CabinTable />
       </Row>
-      <Button onClick={toggleForm}>
-        {showForm ? "Close Form" : "Add New Cabin"}
-      </Button>
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <Button onClick={toggleForm}>
+          {showForm ? "Close Form" : "Add New Cabin"}
+        </Button>
+      </div>
+
       {showForm && <CreateCabinForm />}
     </>
   );
