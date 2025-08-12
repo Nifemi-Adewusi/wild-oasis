@@ -91,6 +91,7 @@ function CreateCabinForm() {
         <Input
           type="text"
           id="name"
+          disabled={isAdding}
           {...register("name", { required: "This field is required" })}
         />
       </StyledFormRow>
@@ -116,6 +117,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="maxCapacity"
+          disabled={isAdding}
           {...register("maxCapacity", {
             required: "This field is required",
             min: {
@@ -133,6 +135,7 @@ function CreateCabinForm() {
         <Input
           type="number"
           id="regularPrice"
+          disabled={isAdding}
           {...register("regularPrice", {
             required: "This field is required",
             min: {
@@ -146,6 +149,7 @@ function CreateCabinForm() {
       <StyledFormRow label="Discount" error={errors?.discount?.message}>
         <Input
           type="number"
+          disabled={isAdding}
           id="discount"
           defaultValue={0}
           {...register("discount", {
@@ -164,12 +168,13 @@ function CreateCabinForm() {
         <Textarea
           id="description"
           defaultValue=""
+          disabled={isAdding}
           {...register("description", { required: "This field is required" })}
         />
       </StyledFormRow>
 
       <StyledFormRow label="Cabin photo">
-        <FileInput id="image" accept="image/*" />
+        <FileInput id="image" accept="image/*" disabled={isAdding} />
       </StyledFormRow>
 
       <StyledFormRow>
