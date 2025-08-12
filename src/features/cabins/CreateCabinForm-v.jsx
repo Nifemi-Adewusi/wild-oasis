@@ -145,7 +145,9 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <StyledFormRow label="Cabin photo">
         <FileInput
-          {...register("image", { required: "This field is required" })}
+          {...register("image", {
+            required: isEditSession ? false : "This field is required",
+          })}
           id="image"
           accept="image/*"
           disabled={isAdding}
@@ -157,7 +159,9 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isAdding}>Edit cabin</Button>
+        <Button disabled={isAdding}>
+          {isEditSession ? "Edit cabin" : "Create new cabin"}
+        </Button>
       </StyledFormRow>
     </Form>
   );
