@@ -90,7 +90,9 @@ function CabinRow({ cabin }) {
           <button disabled={isDeleting} onClick={() => mutate(cabinId)}>
             Delete
           </button>
-          <button onClick={() => setShowForm((form) => !form)}>Edit</button>
+          <button onClick={() => setShowForm((form) => !form)}>
+            {showForm ? "Close" : "Edit"}
+          </button>
         </div>
       </TableRow>
       {showForm && <CreateCabinForm />}
