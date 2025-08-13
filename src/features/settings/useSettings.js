@@ -13,3 +13,4 @@ export function useSettings() {
     )
     return {settings, isLoading, error}
 }
+
