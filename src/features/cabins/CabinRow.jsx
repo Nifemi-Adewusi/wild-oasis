@@ -12,6 +12,7 @@ import {
 import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -54,6 +55,8 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteCabin } = useDeleteCabin();
+
   const {
     id: cabinId,
     name,
@@ -63,21 +66,6 @@ function CabinRow({ cabin }) {
     description,
     image,
   } = cabin;
-  // QueryClient is used to manage the cache and refetch data after mutations
-  // It allows us to invalidate queries and refetch data when a mutation occurs
-  const queryClient = useQueryClient();
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      // Invalidate the query to refetch the cabins list
-      // This will trigger a refetch of the cabins data
-      queryClient.invalidateQueries({
-        queryKey: ["Cabin"],
-      });
-      toast.success("Cabin deleted successfully");
-    },
-    onError: (error) => toast.error(error.message),
-  });
   return (
     <>
       <TableRow role="row">
@@ -85,9 +73,13 @@ function CabinRow({ cabin }) {
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        <Discount>{formatCurrency(discount)}</Discount>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
         <div className="flex gap-5">
-          <button disabled={isDeleting} onClick={() => mutate(cabinId)}>
+          <button disabled={isDeleting} onClick={() => deleteCabin(cabinId)}>
             Delete
           </button>
           <button onClick={() => setShowForm((form) => !form)}>
