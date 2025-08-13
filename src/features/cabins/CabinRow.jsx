@@ -7,6 +7,7 @@ import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
 import { HiSquare2Stack, HiTrash, HiPencil } from "react-icons/hi2";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -60,6 +61,18 @@ function CabinRow({ cabin }) {
     description,
     image,
   } = cabin;
+  const { create } = useCreateCabin();
+  const handleCopy = function () {
+    create({
+      name: `Copy of ${name}`,
+      // cabinId,
+      description,
+      image,
+      regularPrice,
+      maxCapacity,
+      discount,
+    });
+  };
   return (
     <>
       <TableRow role="row">
@@ -73,7 +86,7 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div className="flex gap-5">
-          <button>
+          <button onClick={handleCopy}>
             <HiSquare2Stack />
           </button>
           <button disabled={isDeleting} onClick={() => deleteCabin(cabinId)}>
