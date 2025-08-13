@@ -1,18 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { identity } from "lodash-es";
+
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { deleteCabin } from "../../services/apiCabins";
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
-import toast from "react-hot-toast";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { HiSquare2Stack, HiTrash, HiPencil } from "react-icons/hi2";
 
 const TableRow = styled.div`
   display: grid;
@@ -79,11 +73,15 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div className="flex gap-5">
+          <button>
+            <HiSquare2Stack />
+          </button>
           <button disabled={isDeleting} onClick={() => deleteCabin(cabinId)}>
-            Delete
+            <HiTrash />
           </button>
           <button onClick={() => setShowForm((form) => !form)}>
-            {showForm ? "Close" : "Edit"}
+            {/* {showForm ? "Close" : "Edit"} */}
+            <HiPencil />
           </button>
         </div>
       </TableRow>
