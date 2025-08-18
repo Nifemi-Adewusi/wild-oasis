@@ -12,7 +12,7 @@ import StyledFormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, closeModal }) {
   // Check if there's a cabinToEdit data
   const { id: editId, ...editValues } = cabinToEdit;
   // Determine if we are in edit mode
@@ -35,6 +35,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: () => {
             reset();
+            closeModal?.();
           },
         }
       );
@@ -44,6 +45,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           onSuccess: () => {
             reset();
+            closeModal?.();
           },
         }
       );
@@ -141,7 +143,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
 
       <StyledFormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={closeModal}>
           Cancel
         </Button>
         <Button disabled={isWorking}>
