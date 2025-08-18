@@ -100,8 +100,11 @@ function CabinRow({ cabin }) {
         </div>
       </TableRow>
       {showForm && (
-        <Modal>
-          <CreateCabinForm cabinToEdit={cabin} />
+        <Modal closeModal={() => setShowForm(false)}>
+          <CreateCabinForm
+            closeModal={() => setShowForm(false)}
+            cabinToEdit={cabin}
+          />
         </Modal>
       )}
     </>
