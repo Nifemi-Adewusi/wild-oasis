@@ -9,6 +9,7 @@ import { useDeleteCabin } from "./useDeleteCabin";
 import { HiSquare2Stack, HiTrash, HiPencil } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 const TableRow = styled.div`
   display: grid;
@@ -50,7 +51,7 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
 
   const {
@@ -90,23 +91,33 @@ function CabinRow({ cabin }) {
           <button onClick={handleCopy}>
             <HiSquare2Stack />
           </button>
-          <button disabled={isDeleting} onClick={() => deleteCabin(cabinId)}>
-            <HiTrash />
-          </button>
-          <button onClick={() => setShowForm((form) => !form)}>
-            {/* {showForm ? "Close" : "Edit"} */}
-            <HiPencil />
-          </button>
+
+          <Modal>
+            <Modal.Open opens="delete-cabin">
+              <button disabled={isDeleting}>
+                <HiTrash />
+              </button>
+            </Modal.Open>
+
+            <Modal.Window name="delete-cabin">
+              <ConfirmDelete
+                typeToDelete="cabin"
+                resourceName={name}
+                onConfirm={() => deleteCabin(cabinId)}
+              />
+            </Modal.Window>
+
+            <Modal.Open opens="edit-cabin">
+              <button>
+                <HiPencil />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="edit-cabin">
+              <CreateCabinForm cabinToEdit={cabin} />
+            </Modal.Window>
+          </Modal>
         </div>
       </TableRow>
-      {showForm && (
-        <Modal closeModal={() => setShowForm(false)}>
-          <CreateCabinForm
-            closeModal={() => setShowForm(false)}
-            cabinToEdit={cabin}
-          />
-        </Modal>
-      )}
     </>
   );
 }
