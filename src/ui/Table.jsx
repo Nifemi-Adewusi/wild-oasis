@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
 import { getCabins } from "../services/apiCabins";
 import Spinner from "./Spinner";
+import { createContext, useContext } from "react";
 
 const StyledTable = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -23,7 +25,6 @@ const CommonRow = styled.div`
 
 const StyledHeader = styled(CommonRow)`
   padding: 1.6rem 2.4rem;
-
   background-color: var(--color-grey-50);
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
@@ -63,4 +64,42 @@ const Empty = styled.p`
   margin: 2.4rem;
 `;
 
-// export default CabinTable;
+const TableContext = createContext();
+
+function Table({ columns, children }) {
+  // console.log(columns);
+  return (
+    <TableContext.Provider value={{ columns }}>
+      <StyledTable role="table">{children}</StyledTable>
+    </TableContext.Provider>
+  );
+}
+
+function Header({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledHeader role="row" columns={columns}>
+      {children}
+    </StyledHeader>
+  );
+}
+
+function Row({ children }) {
+  const columns = useContext(TableContext);
+
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
+}
+
+function Body({ children }) {
+  return <StyledBody>{children}</StyledBody>;
+}
+
+Table.Header = Header;
+Table.Row = Row;
+Table.Body = Body;
+Table.Footer = Footer;
+export default Table;
