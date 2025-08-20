@@ -10,6 +10,7 @@ import { HiSquare2Stack, HiTrash, HiPencil } from "react-icons/hi2";
 import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 
 const TableRow = styled.div`
   display: grid;
@@ -77,7 +78,7 @@ function CabinRow({ cabin }) {
   };
   return (
     <>
-      <TableRow role="row">
+      <TableRow>
         <img src={image} alt={name} />
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity} guests</div>
