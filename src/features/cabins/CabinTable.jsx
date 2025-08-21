@@ -35,9 +35,14 @@ function CabinTable() {
   const { cabins, isLoading, error } = useCabins();
   const [searchParams] = useSearchParams() || "all";
   const filterBy = searchParams.get("discount");
-  console.log(filterBy);
+  const sortBy = searchParams.get("sortBy");
+  // console.log(filterSort);
+  // console.log(filterBy);
   // console.log(x);
+
   let filteredCabins;
+
+  // Filter
   if (filterBy === "all") {
     filteredCabins = cabins;
   }
@@ -46,6 +51,33 @@ function CabinTable() {
   }
   if (filterBy === "with-discount") {
     filteredCabins = cabins.filter((cabin) => cabin?.discount > 0);
+  }
+
+  // Sorting
+
+  let sortedCabins = [...filteredCabins];
+
+  if (sortBy === "regularPrice-asc") {
+    sortedCabins.sort((a, b) => a.regularPrice - b.regularPrice);
+  }
+
+  if (sortBy === "regularPrice-desc") {
+    sortedCabins.sort((a, b) => b.regularPrice - a.regularPrice);
+  }
+
+  if (sortBy === "maxCapacity") {
+    sortedCabins.sort((a, b) => b.maxCapacity - a.maxCapacity);
+  }
+
+  if (sortBy === "minCapacity") {
+    sortedCabins.sort((a, b) => a.maxCapacity - b.maxCapacity);
+  }
+
+  if (sortBy === "name-asc") {
+    sortedCabins.sort((a, b) => a.name.localeCompare(b.name));
+  }
+  if (sortBy === "name-desc") {
+    sortedCabins.sort((a, b) => b.name.localeCompare(a.name));
   }
   if (isLoading) return <Spinner />;
   return (
@@ -66,7 +98,7 @@ function CabinTable() {
       ))} */}
 
       <Table.Body
-        data={filteredCabins}
+        data={sortedCabins}
         render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
       ></Table.Body>
     </Table>
