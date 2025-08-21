@@ -90,16 +90,25 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div className="flex gap-5">
-          <button onClick={handleCopy}>
-            <HiSquare2Stack />
-          </button>
-
           <Modal>
-            <Modal.Open opens="delete-cabin">
-              <button disabled={isDeleting}>
-                <HiTrash />
-              </button>
-            </Modal.Open>
+            <Menus>
+              <Menus.Menu>
+                <Menus.Toggle id={cabinId} />
+                <Menus.List id={cabinId}>
+                  <Menus.Button icon={<HiSquare2Stack />} onClick={handleCopy}>
+                    Duplicate
+                  </Menus.Button>
+
+                  <Modal.Open opens="edit-cabin">
+                    <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                  </Modal.Open>
+
+                  <Modal.Open opens="delete-cabin">
+                    <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                  </Modal.Open>
+                </Menus.List>
+              </Menus.Menu>
+            </Menus>
 
             <Modal.Window name="delete-cabin">
               <ConfirmDelete
@@ -109,26 +118,11 @@ function CabinRow({ cabin }) {
               />
             </Modal.Window>
 
-            <Modal.Open opens="edit-cabin">
-              <button>
-                <HiPencil />
-              </button>
-            </Modal.Open>
             <Modal.Window name="edit-cabin">
               <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
           </Modal>
         </div>
-        <Menus>
-          <Menus.Menu>
-            <Menus.Toggle id={cabinId} />
-            <Menus.List id={cabinId}>
-              <Menus.Button>Duplicate</Menus.Button>
-              <Menus.Button>Edit</Menus.Button>
-              <Menus.Button>Delete</Menus.Button>
-            </Menus.List>
-          </Menus.Menu>
-        </Menus>
       </TableRow>
     </>
   );
