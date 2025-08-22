@@ -28,9 +28,9 @@ const sortOptions = [
     value: "regularPrice-desc",
     label: "Sort By Price (High Price to Low",
   },
-  { value: "maxCapacity", label: "Sort By Capacity (High to Low)" },
+  { value: "maxCapacity-desc", label: "Sort By Capacity (High to Low)" },
   {
-    value: "minCapacity",
+    value: "maxCapacity-asc",
     label: "Sort By Capacity (Low to High)",
   },
 ];
