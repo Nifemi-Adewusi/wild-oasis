@@ -8,6 +8,7 @@ import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
 
@@ -33,14 +34,16 @@ const TableHeader = styled.header`
 `;
 function CabinTable() {
   const { cabins, isLoading, error } = useCabins();
+
   const [searchParams] = useSearchParams() || "all";
-  const filterBy = searchParams.get("discount");
+  const filterBy = searchParams.get("discount") || "all";
+
   const sortBy = searchParams.get("sortBy");
   // console.log(filterSort);
   // console.log(filterBy);
   // console.log(x);
 
-  let filteredCabins;
+  let filteredCabins = cabins || [];
 
   // Filter
   if (filterBy === "all") {
@@ -50,36 +53,44 @@ function CabinTable() {
     filteredCabins = cabins?.filter((cabin) => cabin?.discount === 0);
   }
   if (filterBy === "with-discount") {
-    filteredCabins = cabins.filter((cabin) => cabin?.discount > 0);
+    filteredCabins = cabins?.filter((cabin) => cabin?.discount > 0);
   }
 
   // Sorting
 
-  let sortedCabins = [...filteredCabins];
+  // let sortedCabins = [...filteredCabins];
 
-  if (sortBy === "regularPrice-asc") {
-    sortedCabins.sort((a, b) => a.regularPrice - b.regularPrice);
-  }
+  const [field, direction] = sortBy.split("-");
+  const modifier = direction === "asc" ? 1 : -1;
+  const sortedCabins = filteredCabins.sort(
+    (a, b) => (a[field] - b[field]) * modifier
+  );
+  // if (sortBy === "regularPrice-asc") {
+  //   sortedCabins.sort((a, b) => a.regularPrice - b.regularPrice);
+  // }
 
-  if (sortBy === "regularPrice-desc") {
-    sortedCabins.sort((a, b) => b.regularPrice - a.regularPrice);
-  }
+  // if (sortBy === "regularPrice-desc") {
+  //   sortedCabins.sort((a, b) => b.regularPrice - a.regularPrice);
+  // }
 
-  if (sortBy === "maxCapacity") {
-    sortedCabins.sort((a, b) => b.maxCapacity - a.maxCapacity);
-  }
+  // if (sortBy === "maxCapacity") {
+  //   sortedCabins.sort((a, b) => b.maxCapacity - a.maxCapacity);
+  // }
 
-  if (sortBy === "minCapacity") {
-    sortedCabins.sort((a, b) => a.maxCapacity - b.maxCapacity);
-  }
+  // if (sortBy === "minCapacity") {
+  //   sortedCabins.sort((a, b) => a.maxCapacity - b.maxCapacity);
+  // }
 
-  if (sortBy === "name-asc") {
-    sortedCabins.sort((a, b) => a.name.localeCompare(b.name));
-  }
-  if (sortBy === "name-desc") {
-    sortedCabins.sort((a, b) => b.name.localeCompare(a.name));
-  }
+  // if (sortBy === "name-asc") {
+  //   sortedCabins.sort((a, b) => a.name.localeCompare(b.name));
+  // }
+  // if (sortBy === "name-desc") {
+  //   sortedCabins.sort((a, b) => b.name.localeCompare(a.name));
+  // }
   if (isLoading) return <Spinner />;
+  if (!cabins) return <Empty resourceName="Cabins" />;
+  if (!filteredCabins)
+    return <Empty resourceName={`Cabins with ${filterBy} `} />;
   return (
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
       <Table.Header role="row">
