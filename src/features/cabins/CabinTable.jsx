@@ -38,16 +38,13 @@ function CabinTable() {
   const [searchParams] = useSearchParams() || "all";
   const filterBy = searchParams.get("discount") || "all";
 
-  const sortBy = searchParams.get("sortBy");
-  // console.log(filterSort);
-  // console.log(filterBy);
-  // console.log(x);
+  const sortBy = searchParams.get("sortBy") || "name-asc";
 
   let filteredCabins = cabins || [];
 
   // Filter
   if (filterBy === "all") {
-    filteredCabins = cabins;
+    filteredCabins = cabins || [];
   }
   if (filterBy === "no-discount") {
     filteredCabins = cabins?.filter((cabin) => cabin?.discount === 0);
@@ -56,6 +53,7 @@ function CabinTable() {
     filteredCabins = cabins?.filter((cabin) => cabin?.discount > 0);
   }
 
+  console.log(filteredCabins);
   // Sorting
 
   // let sortedCabins = [...filteredCabins];
@@ -89,7 +87,7 @@ function CabinTable() {
   // }
   if (isLoading) return <Spinner />;
   if (!cabins) return <Empty resourceName="Cabins" />;
-  if (!filteredCabins)
+  if (!filteredCabins.length)
     return <Empty resourceName={`Cabins with ${filterBy} `} />;
   return (
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
