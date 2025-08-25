@@ -18,4 +18,4 @@ function SortBy({ options, filterKey }) {
   return <Select value={value} onChange={handleChange} options={options} />;
 }
 
-export default SortBy
+export default SortBy;
