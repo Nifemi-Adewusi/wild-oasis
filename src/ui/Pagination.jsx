@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 const StyledPagination = styled.div`
@@ -55,3 +56,18 @@ const PaginationButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+function Pagination() {
+  return (
+    <StyledPagination>
+      <p>
+        Showing
+        <span>1</span>
+        <span>to</span>
+        <span>10</span>
+        <span></span>
+      </p>
+    </StyledPagination>
+  );
+}
+export default Pagination;
