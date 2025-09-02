@@ -1,14 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+import { PAGE_COUNT } from "../utils/constants";
 
-export async function getBookings({ filter, sortBy }) {
+export async function getBookings({ filter, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select("*, Cabins(name), guests(fullName, email)", { count: "exact" });
 
   if (filter) {
     query = query.eq(filter.field, filter.value);
+  }
+
+  if (page) {
+    const from = (page - 1) * PAGE_COUNT;
+    const to = from + PAGE_COUNT - 1;
+    query = query.range(from, to);
   }
 
   if (sortBy) {
