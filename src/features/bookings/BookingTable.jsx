@@ -4,11 +4,17 @@ import Menus from "../../ui/Menus";
 import Empty from "../../ui/Empty";
 import { useBookings } from "./useBookings";
 import Spinner from "../../ui/Spinner";
+import Pagination from "../../ui/Pagination";
 // import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
   // const bookings = [];
   const { bookings, isLoading } = useBookings();
+
+  const { count } = bookings;
+  console.log(bookings.data);
+  // console.log(bookings);
+
   // const [searchParams] = useSearchParams();
   // const status = searchParams.get("status") || "all";
 
@@ -52,7 +58,7 @@ function BookingTable() {
   // }
 
   if (isLoading) return <Spinner />;
-  if (!bookings.length) return <Empty resourceName="Bookings" />;
+  if (!bookings.data.length) return <Empty resourceName="Bookings" />;
   return (
     <Menus>
       <Table columns="0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem">
@@ -66,11 +72,14 @@ function BookingTable() {
         </Table.Header>
 
         <Table.Body
-          data={bookings}
+          data={bookings.data}
           render={(booking) => (
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
