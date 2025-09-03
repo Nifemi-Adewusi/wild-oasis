@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import BookingDataBox from "../../features/bookings/BookingDataBox";
 
@@ -6,8 +7,13 @@ import Heading from "../../ui/Heading";
 import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
+import Checkbox from "../../ui/Checkbox";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
+import { useParams } from "react-router-dom";
+import { useBooking } from "../bookings/useBooking";
+import Spinner from "../../ui/Spinner";
+import { useEffect, useState } from "react";
 
 const Box = styled.div`
   /* Box */
@@ -19,11 +25,19 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const moveBack = useMoveBack();
+  const [confirm, setConfirm] = useState(false);
 
-  const booking = {};
+  const { isLoading, booking } = useBooking();
 
+  useEffect(() => setConfirm(booking?.isPaid || false), [booking]);
+
+  const { bookingId } = useParams();
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   const {
-    id: bookingId,
+    // id: bookingId,
     guests,
     totalPrice,
     numGuests,
@@ -42,8 +56,22 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      <Box>
+        <Checkbox
+          disabled={!confirm}
+          id="confirm"
+          checked={confirm}
+          onChange={() => setConfirm((c) => !c)}
+        >
+          I confirm that {guests.fullName} has paid the total amount
+        </Checkbox>
+      </Box>
+
       <ButtonGroup>
-        <Button onClick={handleCheckin}>Check in booking #{bookingId}</Button>
+        <Button disabled={!confirm} onClick={handleCheckin}>
+          Check in booking #{bookingId}
+        </Button>
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
