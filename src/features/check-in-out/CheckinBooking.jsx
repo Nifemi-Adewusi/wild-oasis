@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 import { useBooking } from "../bookings/useBooking";
 import Spinner from "../../ui/Spinner";
 import { useEffect, useState } from "react";
+import { formatCurrency } from "../../utils/helpers";
+import { useCheckin } from "./useCheckin";
 
 const Box = styled.div`
   /* Box */
@@ -26,6 +28,8 @@ const Box = styled.div`
 function CheckinBooking() {
   const moveBack = useMoveBack();
   const [confirm, setConfirm] = useState(false);
+
+  const { checkin, isCheckingIn } = useCheckin();
 
   const { isLoading, booking } = useBooking();
 
@@ -45,7 +49,12 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  function handleCheckin() {}
+  function handleCheckin() {
+    if (!confirm) {
+      return;
+    }
+    checkin(bookingId);
+  }
 
   return (
     <>
@@ -58,17 +67,18 @@ function CheckinBooking() {
 
       <Box>
         <Checkbox
-          disabled={!confirm}
+          disabled={confirm || isCheckingIn}
           id="confirm"
           checked={confirm}
           onChange={() => setConfirm((c) => !c)}
         >
-          I confirm that {guests.fullName} has paid the total amount
+          I confirm that {guests.fullName} has paid the total amount{" "}
+          {formatCurrency(totalPrice)}
         </Checkbox>
       </Box>
 
       <ButtonGroup>
-        <Button disabled={!confirm} onClick={handleCheckin}>
+        <Button disabled={!confirm || isCheckingIn} onClick={handleCheckin}>
           Check in booking #{bookingId}
         </Button>
 
