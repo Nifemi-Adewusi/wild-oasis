@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
+import Checkin from "./pages/Checkin";
 
 // This is the main entry point of the application
 // It sets up the React Router, global styles, and the query client for data fetching
@@ -45,6 +46,8 @@ function App() {
               <Route path="bookings" element={<Bookings />} />
 
               <Route path="booking/:bookingId" element={<Booking />} />
+
+              <Route path="checkin/:bookingId" element={<Checkin />} />
               <Route path="cabins" element={<Cabins />} />
 
               <Route path="settings" element={<Settings />} />
