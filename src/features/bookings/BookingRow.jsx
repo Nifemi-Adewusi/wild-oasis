@@ -9,9 +9,15 @@ import Table from "../../ui/Table";
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
 import Menus from "../../ui/Menus";
-import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiEye,
+  HiTrash,
+} from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBookings } from "./useDeleteBookings";
 
 const TableRow = styled.div`
   display: grid;
@@ -73,6 +79,7 @@ function BookingRow({
   };
 
   const { checkout, isCheckingOut } = useCheckout();
+  const { deleteBooking } = useDeleteBookings();
 
   const navigate = useNavigate();
 
@@ -130,6 +137,16 @@ function BookingRow({
                 icon={<HiArrowUpOnSquare />}
               >
                 Check Out
+              </Menus.Button>
+            )}
+
+            {status === "checked-out" && (
+              <Menus.Button
+                onClick={() => deleteBooking(bookingId)}
+                disabled={isCheckingOut}
+                icon={<HiTrash />}
+              >
+                Delete Booking
               </Menus.Button>
             )}
           </Menus.List>
