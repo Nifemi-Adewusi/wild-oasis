@@ -40,6 +40,10 @@ function Filter({ filterKey, options }) {
   const [searchParams, setSetSearchParams] = useSearchParams();
   const handleClick = (value) => {
     searchParams.set(filterKey, value);
+    // If a page already exists and the filter changes, reset the page to 1
+    if (searchParams.get("page")) {
+      searchParams.set("page", "1");
+    }
     setSetSearchParams(searchParams);
   };
   const currentFilter = searchParams.get(filterKey);
