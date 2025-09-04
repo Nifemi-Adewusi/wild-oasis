@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 // import BookingDataBox from "./BookingDataBox";
@@ -14,6 +15,11 @@ import Spinner from "../../ui/Spinner";
 import BookingDataBox from "./BookingDataBox";
 import { useNavigate } from "react-router-dom";
 import { useCheckout } from "../check-in-out/useCheckout";
+import { useDeleteBookings } from "./useDeleteBookings";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import Menus from "../../ui/Menus";
+import { HiTrash } from "react-icons/hi2";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -32,7 +38,7 @@ function BookingDetail() {
   const { booking, isLoading } = useBooking();
 
   const { checkout } = useCheckout();
-
+  const { deleteBooking } = useDeleteBookings();
   console.log(booking);
   const statusToTagName = {
     unconfirmed: "blue",
@@ -69,6 +75,35 @@ function BookingDetail() {
           <Button variation="primary" onClick={() => checkout(bookingId)}>
             Check Out
           </Button>
+        )}
+
+        {status === "checked-out" && (
+          <Button
+            variation="primary"
+            onClick={() => {
+              deleteBooking(bookingId);
+              navigate("/bookings");
+            }}
+          >
+            Delete Booking
+          </Button>
+          // <Modal>
+          //   <Menus>
+          //     <Menus.List>
+          //       <Modal.Open opens="delete-booking">
+          //         <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+          //       </Modal.Open>
+          //     </Menus.List>
+          //   </Menus>
+
+          //   <Modal.Window name="delete-booking">
+          //     <ConfirmDelete
+          //       typeToDelete="booking"
+          //       resourceName={bookingId}
+          //       onConfirm={() => deleteBooking(bookingId)}
+          //     />
+          //   </Modal.Window>
+          // </Modal>
         )}
         <Button variation="secondary" onClick={moveBack}>
           Back
