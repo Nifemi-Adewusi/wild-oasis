@@ -52,63 +52,79 @@ function BookingDetail() {
   console.log(booking);
   return (
     <>
-      <Row type="horizontal">
-        <HeadingGroup>
-          <Heading as="h1">Booking #{bookingId}</Heading>
-          <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
-        </HeadingGroup>
-        <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
-      </Row>
+      <Modal>
+        <Row type="horizontal">
+          <HeadingGroup>
+            <Heading as="h1">Booking #{bookingId}</Heading>
+            <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+          </HeadingGroup>
+          <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
+        </Row>
 
-      <BookingDataBox booking={booking} />
+        <BookingDataBox booking={booking} />
 
-      <ButtonGroup>
-        {status === "unconfirmed" && (
-          <Button
-            variation="primary"
-            onClick={() => navigate(`/checkin/${bookingId}`)}
-          >
-            Check In
+        <ButtonGroup>
+          {status === "unconfirmed" && (
+            <Button
+              variation="primary"
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            >
+              Check In
+            </Button>
+          )}
+          {status === "checked-in" && (
+            <Button variation="primary" onClick={() => checkout(bookingId)}>
+              Check Out
+            </Button>
+          )}
+
+          {status === "checked-out" && (
+            // <Button
+            //   variation="primary"
+            //   onClick={() => {
+            //     deleteBooking(bookingId);
+            //     navigate("/bookings");
+            //   }}
+            // >
+            //   Delete Booking
+            // </Button>
+
+            <Modal.Open opens="delete">
+              <Button variation="primary">Delete Booking</Button>
+            </Modal.Open>
+
+            // <Modal>
+            //   <Menus>
+            //     <Menus.List>
+            //       <Modal.Open opens="delete-booking">
+            //         <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+            //       </Modal.Open>
+            //     </Menus.List>
+            //   </Menus>
+
+            //   <Modal.Window name="delete-booking">
+            //     <ConfirmDelete
+            //       typeToDelete="booking"
+            //       resourceName={bookingId}
+            //       onConfirm={() => deleteBooking(bookingId)}
+            //     />
+            //   </Modal.Window>
+            // </Modal>
+          )}
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="booking"
+              onConfirm={() => {
+                deleteBooking(bookingId);
+                navigate("/bookings");
+              }}
+            />
+          </Modal.Window>
+          <Button variation="secondary" onClick={moveBack}>
+            Back
           </Button>
-        )}
-        {status === "checked-in" && (
-          <Button variation="primary" onClick={() => checkout(bookingId)}>
-            Check Out
-          </Button>
-        )}
-
-        {status === "checked-out" && (
-          <Button
-            variation="primary"
-            onClick={() => {
-              deleteBooking(bookingId);
-              navigate("/bookings");
-            }}
-          >
-            Delete Booking
-          </Button>
-          // <Modal>
-          //   <Menus>
-          //     <Menus.List>
-          //       <Modal.Open opens="delete-booking">
-          //         <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
-          //       </Modal.Open>
-          //     </Menus.List>
-          //   </Menus>
-
-          //   <Modal.Window name="delete-booking">
-          //     <ConfirmDelete
-          //       typeToDelete="booking"
-          //       resourceName={bookingId}
-          //       onConfirm={() => deleteBooking(bookingId)}
-          //     />
-          //   </Modal.Window>
-          // </Modal>
-        )}
-        <Button variation="secondary" onClick={moveBack}>
-          Back
-        </Button>
-      </ButtonGroup>
+        </ButtonGroup>
+      </Modal>
     </>
   );
 }
