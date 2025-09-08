@@ -18,7 +18,7 @@ const { data, error } = await supabase
   .eq("id", id);
 if (error) {
     console.error("Error deleting cabin:", error);
-    throw new Error("Cabin could not be deleted");
+    throw new Error(`This cabin has existing bookings and cannot be deleted`);
     }
     return data;
 }
