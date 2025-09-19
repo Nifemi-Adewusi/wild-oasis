@@ -22,7 +22,7 @@ ${(props) =>
     props.as === "h3" &&
     css`
       font-weight: 500;
-      background-color: aliceblue;
+
       font-size: 15px;
     `}
 ${(props) =>
