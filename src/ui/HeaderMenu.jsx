@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import Logout from "../features/authentication/Logout";
 import ButtonIcon from "./ButtonIcon";
@@ -14,7 +15,6 @@ function HeaderMenu() {
   const navigate = useNavigate();
   return (
     <StyledHeaderMenu>
-      <UserAvatar />
       <li>
         <ButtonIcon onClick={() => navigate("/account")}>
           <HiOutlineUser />
