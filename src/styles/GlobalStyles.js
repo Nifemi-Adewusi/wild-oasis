@@ -12,6 +12,8 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-800: #3730a3;
   --color-brand-900: #312e81;
 
+  &, &.light-mode{
+  
   /* Grey */
   --color-grey-0: #fff;
   --color-grey-50: #f9fafb;
@@ -50,10 +52,10 @@ const GlobalStyles = createGlobalStyle`
   --border-radius-sm: 5px;
   --border-radius-md: 7px;
   --border-radius-lg: 9px;
-
-  /* For dark mode */
   --image-grayscale: 0;
   --image-opacity: 100%;
+  }
+  
 }
 
 *,
@@ -143,9 +145,8 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
-/* FOR DARK MODE */
-
---color-grey-0: #18212f;
+&.dark-mode{
+  --color-grey-0: #18212f;
 --color-grey-50: #111827;
 --color-grey-100: #1f2937;
 --color-grey-200: #374151;
@@ -180,6 +181,9 @@ img {
 
 --image-grayscale: 10%;
 --image-opacity: 90%;
+
+}
+
 
 
 `;
