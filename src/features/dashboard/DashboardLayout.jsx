@@ -1,4 +1,9 @@
+/* eslint-disable no-unused-vars */
+import { useRecentBookings } from "../features/dashboard/useRecentBookings";
+import { useRecentStays } from "../features/dashboard/useRecentStays";
+import Spinner from "../ui/Spinner";
 import styled from "styled-components";
+import Stats from "./Stats";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -8,9 +13,14 @@ const StyledDashboardLayout = styled.div`
 `;
 
 function DashboardLayout() {
+  const { bookings, isLoading } = useRecentBookings();
+  const { stays, loadingStays, confirmedStays } = useRecentStays();
+  if (isLoading || loadingStays) {
+    return <Spinner />;
+  }
   return (
     <StyledDashboardLayout>
-      <div>Statistics</div>
+      <Stats bookings={bookings} confirmedStays={confirmedStays} />
     </StyledDashboardLayout>
   );
 }
