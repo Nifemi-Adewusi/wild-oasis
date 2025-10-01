@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { useRecentBookings } from "../features/dashboard/useRecentBookings";
-import { useRecentStays } from "../features/dashboard/useRecentStays";
-import Spinner from "../ui/Spinner";
+import { useRecentBookings } from "./useRecentBookings";
+import { useRecentStays } from "./useRecentStays";
+import Spinner from "../../ui/Spinner";
 import styled from "styled-components";
 import Stats from "./Stats";
 
