@@ -49,7 +49,7 @@ export async function getBooking(id) {
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
-    .select("created_at, totalPrice, extrasPrice")
+    .select("created_at, totalPrice, extrasPrice, status")
     .gte("created_at", date)
     .lte("created_at", getToday({ end: true }));
 
@@ -62,17 +62,32 @@ export async function getBookingsAfterDate(date) {
 }
 
 // Returns all STAYS that are were created after the given date
+// export async function getStaysAfterDate(date) {
+//   const { data, error } = await supabase
+//     .from("bookings")
+//     // .select('*')
+//     .select("status");
+//   // .gte("startDate", date)
+//   // .lte("startDate", getToday());
+//   console.log(data);
+//   if (error) {
+//     console.error(error);
+//     throw new Error("Bookings could not get loaded");
+//   }
+
+//   return data;
+// }
+
 export async function getStaysAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
-    // .select('*')
     .select("*, guests(fullName)")
-    .gte("startDate", date)
-    .lte("startDate", getToday());
+    .gte("created_at", date)
+    .lte("created_at", getToday({ end: true }));
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("Stays could not be loaded");
   }
 
   return data;
