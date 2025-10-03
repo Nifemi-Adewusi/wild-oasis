@@ -5,10 +5,26 @@ import { HiOutlineBanknotes, HiOutlineCalendarDays } from "react-icons/hi2";
 import { formatCurrency } from "../../utils/helpers";
 
 /* eslint-disable react/prop-types */
-export default function Stats({ bookings, confirmedStays }) {
+export default function Stats({
+  bookings,
+  confirmedStays,
+  numDays,
+  cabinCount,
+}) {
   const numBookings = bookings.length;
+  console.log(numDays, cabinCount);
   const sales = bookings.reduce((acc, booking) => acc + booking.totalPrice, 0);
   const checkins = confirmedStays.length;
+
+  const totalNights = confirmedStays.reduce(
+    (acc, curr) => acc + curr.numNights,
+    0
+  );
+
+  const occupancy = totalNights / (numDays * cabinCount);
+  // const occupancy = confirmedStays.reduce(
+  //   (acc, curr) => (acc + curr.numNights, 0) / (numDays * cabinCount)
+  // );
   return (
     <>
       <Stat
@@ -35,7 +51,7 @@ export default function Stats({ bookings, confirmedStays }) {
         title="Occupancy rate"
         color="yellow"
         icon={<HiOutlineChartBar />}
-        value={numBookings}
+        value={Math.round(occupancy * 100) + "%"}
       />
     </>
   );
