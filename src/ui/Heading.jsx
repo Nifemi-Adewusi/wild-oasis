@@ -14,7 +14,7 @@ const Heading = styled.h1`
     css`
       font-weight: 600;
 
-      font-size: 20px;
+      font-size: 15px;
       width: 50%;
       text-align: center;
     `}
@@ -32,11 +32,11 @@ ${(props) =>
 
       font-size: 3rem;
       text-align: center;
+      font-size: 20px;
     `}
   padding: 1rem;
   border-radius: 0.5rem;
   font-weight: 600;
-  font-size: 20px;
 
   line-height: 1.4;
 `;
